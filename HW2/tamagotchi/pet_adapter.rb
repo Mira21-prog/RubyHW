@@ -3,14 +3,19 @@ require 'pry'
 class PetAdapter
   attr_reader :params, :pet_message
 
-  def initialize(params, pet_message)
+  def initialize(params, pet_message, name, image)
     @params = params
     @pet_message = pet_message
+    @name = name
+    @image = image
   end
 
   def to_s
     <<-STR
         <div class='container'>
+          <br>
+            #{pet_name}
+
             <div class="alert alert-success" role="alert">
               #{pet_message_block}
             </div>
@@ -21,15 +26,31 @@ class PetAdapter
                         #{list_params}
                     </ul>
                 </div>
-                <div class='col-sm-4'>
-                 <img src="https://cdn2.thecatapi.com/images/L_H7aef7m.jpg" class="img-fluid" alt="Responsive image">
-                </div>
+                  #{get_image}
             </div>
         </div>
     STR
   end
 
   private
+
+  def get_image
+    if @image == 'cat'
+      a = <<-SRC
+      <div class='col-sm-4'>
+        <img src="https://cdn2.thecatapi.com/images/3IWhPRL3a.jpg" class="img-fluid" alt="Responsive image">
+      </div> 
+      SRC
+      a
+    else 
+      b = <<-SRC
+      <div class='col-sm-4'>
+        <img src="https://cdn2.thedogapi.com/images/H6UCIZJsc.jpg" class="img-fluid" alt="Responsive image">
+      </div> 
+      SRC
+      b
+    end
+  end
 
   def pet_message_block
     return '' unless pet_message
@@ -41,12 +62,20 @@ class PetAdapter
     STR
   end
 
+  def pet_name 
+    <<-STR
+      <div class="alert alert-primary" role="alert">
+          <h3/>Welcome, #{@name}!</h3>
+      </div>
+    STR
+  end
+
   def list_params
     str = ''
     params.each do |k, v|
       item = <<-LI
                 <li class="list-unstyled">
-                    <label>#{k}</label>
+                    <label class="text-capitalize font-weight-bold">#{k}</label> 
                     #{slider(v)}
                 </li>
       LI
