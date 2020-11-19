@@ -28,11 +28,44 @@ class PetAdapter
                 </div>
                   #{get_image}
             </div>
+            <br>
+            <hr>
+            <div class='row'>
+              <div class="col-sm-12">
+              #{add_button_help}
+              </div>
+            </div>
         </div>
     STR
   end
 
   private
+
+  def add_button_help
+    c = <<-SRC
+      <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        HELP
+      </button>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body bg-light">
+        <p>If you use a 'play' action, then you will improve his <strong>health</strong>, but decreases <strong>energy</strong> and increases <strong>hungry, dirty, thirst</strong>.</p>
+        <p>If you use a 'eat' action, then you will improve his <strong>health</strong>, <strong>mood</strong> but decreases <strong>energy</strong> and <strong>hungry</strong>, <strong>thirst</strong>.</p>
+        <p>If you use a 'drink' action, then you will improve his <strong>health</strong> but decreases <strong>mood</strong> and <strong>thirst</strong>.</p>
+        <p>If you use a 'treat' action, then you will improve <strong>all parameters</strong>.</p>
+        <p>If you use a 'dream' action, then you will decreases <strong>all parameters</strong>.</p>
+        <p>If you use a 'awake' action, then you will decreases  <strong>energy</strong>, <strong>mood</strong>, but increases <strong>hungry</strong>, <strong>dirty</strong>.</p>
+        <p>If you use a 'overwatch' action, then a random action will be performed.</p>
+        <p>If you use a 'grooming' action, then you will improve <strong>health</strong> and <strong>energy</strong>, decreases <strong>mood</strong>, <strong>hungry</strong>, <strong>dirty</strong>.</p>
+        <p>If you use a 'restroom' action, then you will improve <strong>health</strong> and increases <strong>dirty</strong>, <strong>thirst</strong>.</p>
+        <p>if you use a 'walking' action, then you will improve <strong>mood</strong> and increases <strong>dirty</strong>, and decreases <strong>energy</strong>.</p>
+        <p>If you use a 'hug_pet' action, then you will improve <strong>mood</strong> and <strong>health</strong>.</p>
+        <p>If you use a 'pet_status' action, then it will display the current characteristics of the pet from 0 to 100.</p>
+        <p>Also every 10 minutes the pet's characteristics will decrease during the game.</p>
+        </div>
+      </div>
+    SRC
+    c
+  end 
 
   def get_image
     if @image == 'cat'

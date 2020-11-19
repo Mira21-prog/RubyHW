@@ -1,11 +1,12 @@
 GIT
   remote: https://github.com/Mira21-prog/flip
-  revision: b806e9d4503955c3020b8e652678dd60a5897eed
+  revision: e8135b0910c76701e209fae29cbec949693ebc38
   branch: main
   specs:
     content_flip (2.1.1)
 
 GEM
+  remote: https://rubygems.org/
   specs:
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)

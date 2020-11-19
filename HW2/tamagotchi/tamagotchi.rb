@@ -29,28 +29,27 @@ class Pet
   def play
     if @params[:mood] >= 100
       @pet_message = "Info! I don't want to play. Let's play some other time ""\u{1F610}"
-      puts pet_message
     else
       @params[:energy] -= 20
       @params[:health] += 5
       @params[:hungry] -= 3
       @params[:thirst] += 10
+      @params[:dirty] += 8
       @pet_message = "Success! I like to play! Played well!" "\u{1F60C}"
-      puts pet_message
-      check_life
     end
+    check_life
   end
 
   def eat
     if @params[:hungry] <= 85
-      @params[:mood] -= 10
       @params[:energy] -= 5
       @pet_message = "Info! I don't want to eat." "\u{1F610}"
     else
       @params[:hungry] -= 10
       @params[:health] += 5
       @params[:energy] -= 10
-      @params[:thirst] += 10
+      @params[:thirst] -= 5
+      @params[:mood] += 5
       @toilet = true
       @pet_message = "Success! Yummy. Thank you for feeding" "\u{1F60C}"
     end
@@ -63,8 +62,8 @@ class Pet
       @pet_message = 'Info! I don`t want to drink.' "\u{1F610}"
     else
       @params[:health] += 5
-      @params[:mood] += 5
-      @params[:thirst] += 10
+      @params[:mood] -= 5
+      @params[:thirst] -= 10
       @pet_message = "Success! Thank you. Now I don't want to drink anymore" "\u{1F618}"
     end
     check_life
@@ -75,12 +74,13 @@ class Pet
       @params[:mood] -= 10
       @pet_message = "Info! I am well. Thanks" "\u{1F60E}"
     else
-      @params[:health] += 50
+      @params[:health] += 20
       @params[:mood] += 10
       @params[:thirst] += 5
       @params[:hungry] += 10
-      @params[:energy] += 10
-      @pet_message = "Success! Thank you. I'm healthy now" "\u{263A}" 
+      @params[:energy] += 5
+      @params[:dirty] += 5
+      @pet_message = "Success! Thank you. I'm healthy now" "\u{1F618}" 
     end
     check_life
   end
@@ -88,20 +88,21 @@ class Pet
   def dream
     @dreams = true
     @params.each_with_object(@params) do |(key, _), hash|
-      hash[key] += 5
+      hash[key] -= 3
     end
-    check_life
     @pet_message = 'zzZ zzZ zzZ zzZ zzZ' "\u{1F634}"
+    check_life
   end
 
   def awake
     @time = Time.now
     @dreams = false
-    @params[:hungry] -= 3
+    @params[:hungry] += 3
     @params[:energy] -= 5
     @params[:mood] -= 5
-    check_life
+    @params[:dirty] += 5
     @pet_message = 'Good morning!'"\u{1F60C}"
+    check_life
   end
 
   def mood
@@ -124,12 +125,13 @@ class Pet
 
   def grooming
     if @params[:dirty] >= 90
-      @pet_message = "Info! Thanks. I'm beautiful now." "\u{1F970}"
+      @pet_message = "Info! Thanks. I'm beautiful now." "\u{2764}"
     else
       @params[:mood] += 8
       @params[:health] += 3
       @params[:energy] += 2
       @params[:hungry] -= 3
+      @params[:dirty] -= 4
       @pet_message = "Success! I'm very beautiful." "\u{2764}"
     end
     check_life
@@ -137,15 +139,19 @@ class Pet
 
   def restroom
     @toilet = false
-    check_life
     @pet_message = "Info! I've done it." "\u{1F44C}"
+    @params[:health] += 3
+    @params[:thirst] += 3
+    @params[:dirty] += 3
+    check_life
   end
 
   def walking
     @params[:mood] += 10
     @params[:energy] -= 10
-    check_life
+    @params[:dirty] += 10
     @pet_message = "Success! Thank you for walking with me" "\u{1F618}"
+    check_life
   end
 
   def hug_pet
@@ -156,7 +162,7 @@ class Pet
   end
 
   def help
-    @pet_message = "<h2>Help:</h2>
+    puts "Help:>
     <p>if you use a 'play' action, then you will improve his health and thirst</p>
     <p>if you use a 'eat' action, then you will improve his health and thirst, energy</p>
     <p>if you use a 'drink' action, then you will improve his health and thirst, mood</p>
@@ -199,7 +205,7 @@ class Pet
       @pet_message << "Your pet is doing well with health, energy, mood. "
     else
       nparam.each do |key, value|
-        @pet_message <<  "I am #{key} with score #{value}. Please, fix it. "
+        @pet_message <<  "#{key.capitalize} with score #{value}. Please, fix it. "
       end
     end
   end 
@@ -213,7 +219,7 @@ class Pet
       @pet_message << "Info! Your pet is doing well with hungry, thirst, dirty . "
     else
       npa.each do |key, value|
-        @pet_message <<  " I am #{key} with score #{value}. Please, fix it "
+        @pet_message <<  "#{key.capitalize} with score #{value}. Please, fix it. "
       end
     end
   end 
@@ -240,18 +246,18 @@ class Pet
       hash[key] = 0 if hash[key].negative?
     end
   end
-  #TO DO: after lost 5 lifes call 'Your pet has lost one life. Now your pet has messag...'
+  
   def check_life
     parameters
     values = @params.select { |_, value| value.zero? }
     if values.size.positive?
-      binding.pry
       @lifes -= 1
       if @lifes == 0
-        @pet_message = "Your pet has lost 5 lives. Your pet is dead."
+        @pet_message = "Your pet has lost 5 lives. Your pet is dead.""\u{2620}"
+      elsif @lifes == -1
         exit
       else
-        @pet_message = "Your pet has lost one life. Now your pet has #{@lifes} lifes. Please check status of pet with 0 value and correct this value"
+        @pet_message = "Your pet has lost one life. Now your pet has #{@lifes} lifes. Please check status of pet with 0 value and correct this value""\u{1F621}"
       end
     end
   end
@@ -302,5 +308,5 @@ loop do
 
   content = PetAdapter.new(pet_params, pet.pet_message, name, image).to_s
   get_content(content, 'index', true)
-  @a ||= Launchy::Browser.run('./tmp/index.html')
+  @a ||= Launchy.open('./tmp/index.html')
 end
