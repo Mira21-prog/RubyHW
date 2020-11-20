@@ -6,7 +6,7 @@
 ## Download
 1. Clone repository 
 ```
-https://github.com/Mira21-prog/RubyHW
+git clone https://github.com/Mira21-prog/RubyHW
 ```
 ## Instruction
 
