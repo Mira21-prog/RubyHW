@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/Mira21-prog/flip
-  revision: e8135b0910c76701e209fae29cbec949693ebc38
+  revision: 60e51cad4910a9697cd117ff95303eb31f3b56c3
   branch: main
   specs:
     content_flip (2.1.1)
@@ -28,4 +28,4 @@ DEPENDENCIES
   pry
 
 BUNDLED WITH
-   1.17.2
+   2.1.4
