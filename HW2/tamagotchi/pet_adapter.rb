@@ -15,7 +15,6 @@ class PetAdapter
         <div class='container'>
           <br>
             #{pet_name}
-
             <div class="alert alert-success" role="alert">
               #{pet_message_block}
             </div>
@@ -98,7 +97,7 @@ class PetAdapter
   def pet_name 
     <<-STR
       <div class="alert alert-primary" role="alert">
-          <h3/>Welcome, #{@name}!</h3>
+            <h3/>Welcome, #{@name}!</h3>           
       </div>
     STR
   end
