@@ -1,0 +1,10 @@
+---
+- :role: GUEST
+  :login: thebestuser
+  :password: thebestuser
+- :role: ADMIN
+  :login: thebestadmin
+  :password: thebestadmin
+- :role: SUPERADMIN
+  :login: thebestsuperadmin
+  :password: thebestsuperadmin

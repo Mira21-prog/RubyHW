@@ -40,7 +40,7 @@ until selected
   print 'Do you have a cat or a dog?=>'.green
   pet_type = gets.chomp
   if %w[cat dog].include?(pet_type)
-    image = pet.print_image(pet_type)
+    pet.image = pet.print_image(pet_type)
     selected = true
   end
 end
@@ -69,7 +69,7 @@ loop do
 
   pet_params = pet.pet_status
  
-  content = PetAdapter.new(pet_params, pet.pet_message, pet.name, image).to_s
+  content = PetAdapter.new(pet_params, pet.pet_message, pet.name, pet.image).to_s
   get_content(content, 'index', true)
   @a ||= Launchy.open('./tmp/index.html')
 end

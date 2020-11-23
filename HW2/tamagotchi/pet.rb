@@ -3,6 +3,7 @@ require_relative 'pet_adapter'
 require 'content_flip'
 require 'launchy'
 require 'pry'
+# require 'tamagotchi'
 
 class Pet
   attr_reader :pet_message
@@ -19,6 +20,7 @@ class Pet
   end
 
   def change_pet_owner_name 
+    game.authorize!('change_pet_owner_name')
     @name_owner = nil
     puts "Write a new owner name"
     new_owner_name = gets.chomp
@@ -31,6 +33,7 @@ class Pet
   end
 
   def set_default_score
+    game.authorize!('set_default_score')
     @dreams = false
     @time = Time.now
     params_hash = { hungry: 10, health: 80, energy: 80, thirst: 10, mood: 80, dirty: 80 }
@@ -41,7 +44,44 @@ class Pet
     @pet_message = "You updated the pet"
   end
 
+  def change_score
+    game.authorize!('change_score')
+    loop do 
+      ">Enter characteristic (hungry, health, energy, thirst, mood, dirty, lifes, toilet and dreams or exit)"
+      option_array = ["hungry", "health", "energy", "thirst", "mood", "dirty", "lifes", "toilet", "dreams", "exit" ]
+      print "Enter option or 'exit' for save changes =>"
+      option = gets.chomp.strip
+      return if option == 'exit'
+      if option_array.include?(option)
+        puts ">Enter value from 0 to 100 for hungry, health, energy, thirst, mood, dirty."
+        puts ">Lifes from 0 to 5"
+        puts ">Toilet and dreams yes/no" 
+        puts ">Finish changes enter `exit`."
+        print "Enter value =>"
+        value = gets.chomp.strip
+        case option
+        when 'lifes'
+          @lives = value.to_i if (0..5).include?(value.to_i)
+        when "hungry", "health", "energy", "thirst", "mood", "dirty"
+          @params[option.to_sym] = value.to_i if (0..100).include?(value.to_i)
+        when 'toilet'
+          value = (if value == 'yes' then true else false end)
+          @toilet = value
+        when 'dreams'
+          value = (if value == 'yes' then true else false end)
+          @dreams = value
+        else 
+          puts "Error: you enter invalid value"
+        end
+      else  
+        "Option invalids. Please try again!"
+      end
+    end 
+    @pet_message
+  end 
+
   def kill_pet
+    game.authorize!('kill_pet')
     @lifes = 0
     check_life
     @pet_message = "Your pet has lost 5 lives. Your pet is dead.""\u{2620}"
@@ -50,31 +90,28 @@ class Pet
     end
   end
 
-  # def change_pet_type
-  #   if image =='cat'
-  #     pet_type ='dog'
-  #     image = pet.print_image(pet_type)
-  #   else
-  #     pet_type ='cat'
-  #     image = pet.print_image(pet_type)
-  #   end 
-  #   image
-  # end 
-
-  def 
-
   def change_pet_name
+    game.authorize!('change_pet_name')
     @name = nil
     puts "Enter a new name pet:"
     new_name = gets.chomp
     @name = new_name
-    
   end
 
   def pet_owner(name_owner)
     @name_owner = name_owner
     "Hi, #{name_owner}."
   end
+
+  def change_pet_type
+    game.authorize!('change_pet_type')
+    self.image = if image.eql?('cat')
+                   'dog'
+                 else
+                  'cat'
+                end
+  end
+
 
   def print_image(image_type)
     case image_type
@@ -101,6 +138,7 @@ class Pet
   end
 
   def eat
+    game.authorize!('eat')
     if @params[:hungry] <= 85
       @params[:energy] -= 5
       @pet_message = "Info! I don't want to eat." "\u{1F610}"
@@ -117,6 +155,7 @@ class Pet
   end
 
   def drink
+    game.authorize!('drink')
     if @params[:thirst] >= 30
       @params[:mood] -= 10
       @pet_message = 'Info! I don`t want to drink.' "\u{1F610}"
@@ -130,6 +169,7 @@ class Pet
   end
 
   def treat
+    game.authorize!('treat')
     if @params[:health] >= 100
       @params[:mood] -= 10
       @pet_message = "Info! I am well. Thanks" "\u{1F60E}"
@@ -146,6 +186,7 @@ class Pet
   end
 
   def dream
+    game.authorize!('dream')
     @dreams = true
     @params.each_with_object(@params) do |(key, _), hash|
       hash[key] -= 3
@@ -155,6 +196,7 @@ class Pet
   end
 
   def awake
+    game.authorize!('awake')
     @time = Time.now
     @dreams = false
     @params[:hungry] += 3
@@ -166,6 +208,7 @@ class Pet
   end
 
   def mood
+    game.authorize!('mood')
     if @params[:mood] >= 100
       @pet_message = 'Info! I have a good mood' "\u{1F44C}"
     else
@@ -179,11 +222,13 @@ class Pet
   end
 
   def overwatch
+    game.authorize!('overwatch')
     arr = %i[play eat drink treat dream awake mood grooming clean walking hug_pet].sample
     send(arr)
   end
 
   def grooming
+    game.authorize!('grooming')
     if @params[:dirty] >= 90
       @pet_message = "Info! Thanks. I'm beautiful now." "\u{2764}"
     else
@@ -198,6 +243,7 @@ class Pet
   end
 
   def restroom
+    game.authorize!('restroom')
     @toilet = false
     @pet_message = "Info! I've done it." "\u{1F44C}"
     @params[:health] += 3
@@ -207,6 +253,7 @@ class Pet
   end
 
   def walking
+    game.authorize!('walking')
     @params[:mood] += 10
     @params[:energy] -= 10
     @params[:dirty] += 10
@@ -215,6 +262,7 @@ class Pet
   end
 
   def hug_pet
+    game.authorize!('hug_pet')
     @params[:mood] += 10
     @params[:health] += 3
     @pet_message = "Success! Thanks. I am very happy" "\u{1F607}""\u{1F917}"
@@ -222,6 +270,7 @@ class Pet
   end
 
   def help
+    game.authorize!('help')
     puts "Help:>
     <p>if you use a 'play' action, then you will improve his health and thirst</p>
     <p>if you use a 'eat' action, then you will improve his health and thirst, energy</p>
@@ -239,10 +288,12 @@ class Pet
   end
 
   def pet_status
+    game.authorize!('pet_status')
     parameters
   end
 
   def pet_needs
+    game.authorize!('pet_needs')
     @pet_message = 'Warning!'
     check_energy_health_mood
     check_hungry_thirst_dirty
