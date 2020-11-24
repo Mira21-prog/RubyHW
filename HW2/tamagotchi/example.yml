@@ -11,3 +11,6 @@
 - :role: GUEST
   :login: dfsdfsdfsdfdsfsdf
   :password: fdsfsdfdsf
+- :role: GUEST
+  :login: thebestnewuser
+  :password: thebestnewuser

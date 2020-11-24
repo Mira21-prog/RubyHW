@@ -12,16 +12,11 @@ class Game
 end 
 
 game = Game.new
-
-
- 
-puts "Enter password:"
-password = gets.chomp
 puts "Enter login:"
-login = gets.chomp 
-puts "Enter role:"
-role = gets.chomp 
-user = User.find(login, password, role)
+login = gets.chomp
+puts "Enter password:"
+password = gets.chomp 
+user = User.find(login, password)
 game.user = user
 
 print "Please, write the pet's name =>".green
@@ -77,4 +72,5 @@ loop do
   content = PetAdapter.new(pet_params, pet.pet_message, pet.name, pet.image).to_s
   get_content(content, 'index', true)
   @a ||= Launchy.open('./tmp/index.html')
+
 end

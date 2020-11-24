@@ -15,11 +15,13 @@ class User
       @role = role
   end 
 
-  def self.find(login, password, role)
+  def self.find(login, password)
     user_array = YAML.load(File.read("example.yml"))
-    user_data = user_array.select { |i| i[:login] == login && i[:password] == password && i[:role] == role.upcase }.first
+    user_data = user_array.select { |i| i[:login] == login && i[:password] == password}.first
     if user_data
-      user = User.new(login, password, role)
+      user_role = user_data[:role]
+      user = User.new(login, password, user_role)
+      puts "Welcome, #{user.role}"
     else  
       print "Create new user yes/no => "
       answer = gets.chomp
@@ -28,8 +30,8 @@ class User
         new_user = { role: "GUEST", login: login, password: password }
         user_array.push(new_user)
         File.open('example.yml', 'w') { |f| f.write(YAML.dump(user_array)) }
-      else  
-        "You enter invalid login or password. Please, try again!"
+      when 'no'  
+        exit
       end
     end
   end  
