@@ -8,3 +8,6 @@
 - :role: SUPERADMIN
   :login: thebestsuperadmin
   :password: thebestsuperadmin
+- :role: GUEST
+  :login: dfsdfsdfsdfdsfsdf
+  :password: fdsfsdfdsf

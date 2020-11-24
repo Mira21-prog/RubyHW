@@ -7,16 +7,21 @@ class Game
   attr_accessor :user
 
   def authorize!(method_name)
-    raise unless User.const_get("#{user.role}_PERMISSIONS").include?(method_name)
+    raise unless User.const_get("#{user.role.upcase}_PERMISSIONS").include?(method_name)
   end
 end 
 
 game = Game.new
+
+
+ 
 puts "Enter password:"
 password = gets.chomp
 puts "Enter login:"
-login = gets.chomp
-user = User.find(login, password)
+login = gets.chomp 
+puts "Enter role:"
+role = gets.chomp 
+user = User.find(login, password, role)
 game.user = user
 
 print "Please, write the pet's name =>".green

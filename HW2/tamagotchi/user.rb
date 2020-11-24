@@ -9,30 +9,28 @@ class User
 
   attr_accessor :login, :password, :role 
 
-  def initialize(login, password, role = nil)
+  def initialize(login, password, role)
       @login = login 
       @password = password 
       @role = role
   end 
 
-  def self.find(login, password)
-    pet_array = YAML.load(File.read("example.yml"))
-    new_array = if pet_array.select {|i| i[:login] = login && i[:password] = password}
-      user = User.new(login, password)
-      File.open("#{new_array[:role]}.yml", "w") { |file| file.write(new_array.to_yaml)}
+  def self.find(login, password, role)
+    user_array = YAML.load(File.read("example.yml"))
+    user_data = user_array.select { |i| i[:login] == login && i[:password] == password && i[:role] == role.upcase }.first
+    if user_data
+      user = User.new(login, password, role)
     else  
       print "Create new user yes/no => "
       answer = gets.chomp
-      case answer 
+      case answer
       when 'yes'
-        user = User.new(login, password)
-        new_user_array = [{:role=>"GUEST", :login=>login, :password=>password}]
-        pet_array << new_user_array
-        File.open("example.yml", "w") { |file| file.write(new_array.to_yaml)}
+        new_user = { role: "GUEST", login: login, password: password }
+        user_array.push(new_user)
+        File.open('example.yml', 'w') { |f| f.write(YAML.dump(user_array)) }
       else  
         "You enter invalid login or password. Please, try again!"
       end
-    end 
-  end
-  user
+    end
+  end  
 end
