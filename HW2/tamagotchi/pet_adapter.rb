@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pry'
 
 class PetAdapter
@@ -41,7 +43,7 @@ class PetAdapter
   private
 
   def add_button_help
-    c = <<-SRC
+    <<-SRC
       <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         HELP
       </button>
@@ -63,24 +65,23 @@ class PetAdapter
         </div>
       </div>
     SRC
-    c
-  end 
+  end
 
   def get_image
     if @image == 'cat'
-      a = <<-SRC
+      <<-SRC
       <div class='col-sm-4'>
         <img src="https://cdn2.thecatapi.com/images/3IWhPRL3a.jpg" class="img-fluid" alt="Responsive image">
-      </div> 
+      </div>#{' '}
       SRC
-      a
-    else 
-      b = <<-SRC
+
+    else
+      <<-SRC
       <div class='col-sm-4'>
         <img src="https://cdn2.thedogapi.com/images/H6UCIZJsc.jpg" class="img-fluid" alt="Responsive image">
-      </div> 
+      </div>#{' '}
       SRC
-      b
+
     end
   end
 
@@ -94,10 +95,10 @@ class PetAdapter
     STR
   end
 
-  def pet_name 
+  def pet_name
     <<-STR
       <div class="alert alert-primary" role="alert">
-            <h3/>Welcome, #{@name}!</h3>           
+            <h3/>Welcome, #{@name}!</h3>#{'           '}
       </div>
     STR
   end
@@ -107,11 +108,11 @@ class PetAdapter
     params.each do |k, v|
       item = <<-LI
                 <li class="list-unstyled">
-                    <label class="text-capitalize font-weight-bold">#{k}</label> 
+                    <label class="text-capitalize font-weight-bold">#{k}</label>#{' '}
                     #{slider(v)}
                 </li>
       LI
-      str << item
+      str += item
     end
     str
   end

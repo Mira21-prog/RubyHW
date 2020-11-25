@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require_relative 'color'
 require_relative 'pet_adapter'
 require 'content_flip'
 require 'launchy'
 require 'pry'
-# require 'tamagotchi'
 
 class Pet
   attr_reader :pet_message
@@ -19,17 +20,12 @@ class Pet
     Thread.new { period_of_time }
   end
 
-  def change_pet_owner_name 
+  def change_pet_owner_name
     game.authorize!('change_pet_owner_name')
     @name_owner = nil
-    puts "Write a new owner name"
-    new_owner_name = gets.chomp
-    @name_owner = new_owner_name 
-    puts "You set new owner name"
-  end 
-
-  def get_owner_name
-    puts "Current owner name #{@name_owner}"
+    puts 'Write a new owner name:'
+    @name_owner = gets.chomp
+    @pet_message = "You set new owner name #{@name_owner}"
   end
 
   def set_default_score
@@ -40,51 +36,59 @@ class Pet
     @params = params_hash
     @lifes = 5
     @toilet = false
-    Thread.new { period_of_time }
-    @pet_message = "You updated the pet"
+    @pet_message = 'You set default score of pet'
   end
 
   def change_score
     game.authorize!('change_score')
-    loop do 
-      ">Enter characteristic (hungry, health, energy, thirst, mood, dirty, lifes, toilet and dreams or exit)"
-      option_array = ["hungry", "health", "energy", "thirst", "mood", "dirty", "lifes", "toilet", "dreams", "exit" ]
-      print "Enter option or 'exit' for save changes =>"
-      option = gets.chomp.strip
-      return if option == 'exit'
-      if option_array.include?(option)
-        puts ">Enter value from 0 to 100 for hungry, health, energy, thirst, mood, dirty."
-        puts ">Lifes from 0 to 5"
-        puts ">Toilet and dreams yes/no" 
-        puts ">Finish changes enter `exit`."
-        print "Enter value =>"
-        value = gets.chomp.strip
-        case option
-        when 'lifes'
-          @lives = value.to_i if (0..5).include?(value.to_i)
-        when "hungry", "health", "energy", "thirst", "mood", "dirty"
-          @params[option.to_sym] = value.to_i if (0..100).include?(value.to_i)
-        when 'toilet'
-          value = (if value == 'yes' then true else false end)
-          @toilet = value
-        when 'dreams'
-          value = (if value == 'yes' then true else false end)
-          @dreams = value
-        else 
-          puts "Error: you enter invalid value"
-        end
-      else  
-        "Option invalids. Please try again!"
-      end
-    end 
+    loop do
+      get_option
+    end
     @pet_message
-  end 
+  end
+
+  def get_option
+    'Enter characteristic (hungry, health, energy, thirst, mood, dirty, lifes, toilet and dreams or exit)'
+    option_array = %w[hungry health energy thirst mood dirty lifes toilet dreams exit]
+    print "Enter option or 'exit' for save changes =>"
+    option = gets.chomp.strip
+    return if option == 'exit'
+
+    if option_array.include?(option)
+      change_value
+    else
+      'Option invalids. Please try again!'
+    end
+  end
+
+  def change_value
+    puts 'Enter value from 0 to 100 for hungry, health, energy, thirst, mood, dirty.'
+    puts 'Lifes from 0 to 5'
+    puts 'Toilet and dreams yes/no'
+    puts 'Finish changes enter `exit`.'
+    print 'Enter value =>'
+    value = gets.chomp.strip
+    case option
+    when 'lifes'
+      @lives = value.to_i if (0..5).include?(value.to_i)
+    when 'hungry', 'health', 'energy', 'thirst', 'mood', 'dirty'
+      @params[option.to_sym] = value.to_i if (0..100).include?(value.to_i)
+    when 'toilet'
+      value = (value == 'yes')
+      @toilet = value
+    when 'dreams'
+      value = (value == 'yes')
+      @dreams = value
+    else
+      puts 'Error: you enter invalid value'
+    end
+  end
 
   def kill_pet
     game.authorize!('kill_pet')
     @lifes = 0
     check_life
-    @pet_message = "Your pet has lost 5 lives. Your pet is dead.""\u{2620}"
+    @pet_message = 'Your pet has lost 5 lives. Your pet is dead.'"\u{2620}"
     @params.each_with_object(@params) do |(key, _), hash|
       hash[key] = 0
     end
@@ -93,9 +97,9 @@ class Pet
   def change_pet_name
     game.authorize!('change_pet_name')
     @name = nil
-    puts "Enter a new name pet:"
-    new_name = gets.chomp
-    @name = new_name
+    puts 'Enter a new name pet:'
+    @name = gets.chomp
+    @pet_message = "Success! Your pet's name is #{@name}" "\u{1F60C}"
   end
 
   def pet_owner(name_owner)
@@ -105,13 +109,10 @@ class Pet
 
   def change_pet_type
     game.authorize!('change_pet_type')
-    self.image = if image.eql?('cat')
-                   'dog'
-                 else
-                  'cat'
-                end
-  end
+    self.image = image.eql?('cat') ? 'dog' : 'cat'
+    @pet_message = "Success! Your pet is #{self.image}" "\u{1F60C}"
 
+  end
 
   def print_image(image_type)
     case image_type
@@ -132,7 +133,7 @@ class Pet
       @params[:hungry] -= 3
       @params[:thirst] += 10
       @params[:dirty] += 8
-      @pet_message = "Success! I like to play! Played well!" "\u{1F60C}"
+      @pet_message = 'Success! I like to play! Played well!' "\u{1F60C}"
     end
     check_life
   end
@@ -149,7 +150,7 @@ class Pet
       @params[:thirst] -= 5
       @params[:mood] += 5
       @toilet = true
-      @pet_message = "Success! Yummy. Thank you for feeding" "\u{1F60C}"
+      @pet_message = 'Success! Yummy. Thank you for feeding' "\u{1F60C}"
     end
     check_life
   end
@@ -172,7 +173,7 @@ class Pet
     game.authorize!('treat')
     if @params[:health] >= 100
       @params[:mood] -= 10
-      @pet_message = "Info! I am well. Thanks" "\u{1F60E}"
+      @pet_message = 'Info! I am well. Thanks' "\u{1F60E}"
     else
       @params[:health] += 20
       @params[:mood] += 10
@@ -180,7 +181,7 @@ class Pet
       @params[:hungry] += 10
       @params[:energy] += 5
       @params[:dirty] += 5
-      @pet_message = "Success! Thank you. I'm healthy now" "\u{1F618}" 
+      @pet_message = "Success! Thank you. I'm healthy now" "\u{1F618}"
     end
     check_life
   end
@@ -257,7 +258,7 @@ class Pet
     @params[:mood] += 10
     @params[:energy] -= 10
     @params[:dirty] += 10
-    @pet_message = "Success! Thank you for walking with me" "\u{1F618}"
+    @pet_message = 'Success! Thank you for walking with me' "\u{1F618}"
     check_life
   end
 
@@ -265,7 +266,7 @@ class Pet
     game.authorize!('hug_pet')
     @params[:mood] += 10
     @params[:health] += 3
-    @pet_message = "Success! Thanks. I am very happy" "\u{1F607}""\u{1F917}"
+    @pet_message = 'Success! Thanks. I am very happy' "\u{1F607}""\u{1F917}"
     check_life
   end
 
@@ -300,46 +301,52 @@ class Pet
     check_toilet_dreams
   end
 
+  def all_params
+    main_params = parameters
+    addition_params = { dreams: @dreams, toilet: @toilet, lifes: @lifes, pet_name: @name, pet_type: image }
+    addition_params_user = { user_login: game.user.login, user_role: game.user.role, user_name: @name_owner }
+    main_params.merge(addition_params, addition_params_user)
+  end
+
   protected
 
-  def method_missing(e, k)
-    puts "#{e.to_s} unknown command. To get list of commands type help"
+  def method_missing(e)
+    puts "#{e} unknown command. To get list of commands type help"
   end
 
   private
 
-  def check_energy_health_mood 
+  def check_energy_health_mood
     a = @params.slice(:health, :energy, :mood)
     nparam = a.select { |_, value| (1..50).include?(value) }
-    if nparam == {} 
+    if nparam == {}
       pet_status
-      @pet_message << "Your pet is doing well with health, energy, mood. "
+      @pet_message += 'Your pet is doing well with health, energy, mood. '
     else
       nparam.each do |key, value|
-        @pet_message <<  "#{key.capitalize} with score #{value}. Please, fix it. "
+        @pet_message +=  "#{key.capitalize} with score #{value}. Please, fix it. "
       end
     end
-  end 
-
+  end
 
   def check_hungry_thirst_dirty
     b = @params.slice(:hungry, :thirst, :dirty)
     npa = b.select { |_, value| (11..100).include?(value) }
-    if npa == {} 
+    if npa == {}
       pet_status
-      @pet_message << "Info! Your pet is doing well with hungry, thirst, dirty . "
+      @pet_message += 'Info! Your pet is doing well with hungry, thirst, dirty . '
     else
       npa.each do |key, value|
-        @pet_message <<  "#{key.capitalize} with score #{value}. Please, fix it. "
+        @pet_message +=  "#{key.capitalize} with score #{value}. Please, fix it. "
       end
     end
-  end 
+  end
 
   def check_toilet_dreams
     @pet_m = @toilet ? 'I need a toilet. ' : "I don't need a toilet. "
     dreams_message = @dreams ? 'I am still asleep. Wake me up. ' : "I don't need to sleep. "
-    @pet_message << dreams_message
-    @pet_message << @pet_m
+    @pet_message += dreams_message
+    @pet_message += @pet_m
   end
 
   def period_of_time
@@ -357,15 +364,16 @@ class Pet
       hash[key] = 0 if hash[key].negative?
     end
   end
-  
+
   def check_life
     parameters
     values = @params.select { |_, value| value.zero? }
     if values.size.positive?
       @lifes -= 1
-      if @lifes == 0
-        @pet_message = "Your pet has lost 5 lives. Your pet is dead.""\u{2620}"
-      elsif @lifes == -1
+      case @lifes
+      when 0
+        @pet_message = 'Your pet has lost 5 lives. Your pet is dead.'"\u{2620}"
+      when -1
         exit
       else
         @pet_message = "Your pet has lost one life. Now your pet has #{@lifes} lifes. Please check status of pet with 0 value and correct this value""\u{1F621}"
