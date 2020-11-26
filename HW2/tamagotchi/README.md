@@ -19,6 +19,25 @@ bundle
 ```
 bundle exec ruby tamagotchi.rb
 ```
+3. Enter login: 
+```
+Enter login:thebestuser
+```
+4. Enter password: 
+```
+Enter login:thebestuser
+```
+You get message: "Welcome, GUEST!"
+
+---
+All info for authorization
+| login | password |
+| --- | --- |
+| thebestuser | thebestuser |
+| thebestadmin | thebestadmin |
+| thebestsuperadmin | thebestsuperadmin |
+---
+
 3. Write name of pet in console(for example: Chewey)
 
 ```
@@ -66,7 +85,7 @@ or `pet_needs` what needs to be improved for the pet
 ```
 =>pet_needs
 ```
-|All options in menu:| 
+|All options in menu for user:| 
 |--------------------|
 |play|
 |eat|
@@ -81,7 +100,45 @@ or `pet_needs` what needs to be improved for the pet
 |pet_status|
 |help|
 |pet_needs|
-|
+---
+|All options in menu for admin:| 
+|--------------------|
+|play|
+|eat|
+|drink|
+|treat|
+|dream|
+|awake|
+|overwatch|
+|grooming|
+|restroom|
+|walking|
+|pet_status|
+|help|
+|pet_needs|
+|change_pet_type|
+|change_pet_name|
+---
+|All options in menu for superadmin:| 
+|--------------------|
+|play|
+|eat|
+|drink|
+|treat|
+|dream|
+|awake|
+|overwatch|
+|grooming|
+|restroom|
+|walking|
+|pet_status|
+|help|
+|pet_needs|
+|change_pet_type|
+|change_pet_name|
+|kill_pet|
+|set_default_score|
+
 
 5. Pet has 5 lifes. If one of the states is 0 and you did not fix it, then one life is taken away.If there are 0 lives, then you leave the program and you need to start the program again
 
