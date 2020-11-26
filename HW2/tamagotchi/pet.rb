@@ -42,35 +42,36 @@ class Pet
   def change_score
     game.authorize!('change_score')
     loop do
-      get_option
+      option = get_option
+      break if option.eql?('exit')
     end
-    @pet_message
+    @pet_message = "New scores!"
   end
 
   def get_option
     'Enter characteristic (hungry, health, energy, thirst, mood, dirty, lifes, toilet and dreams or exit)'
-    option_array = %w[hungry health energy thirst mood dirty lifes toilet dreams exit]
+    option_array = %w[hungry health energy thirst mood dirty lifes toilet dreams]
     print "Enter option or 'exit' for save changes =>"
-    option = gets.chomp.strip
-    return if option == 'exit'
-
+    option = gets.chomp
     if option_array.include?(option)
-      change_value
-    else
-      'Option invalids. Please try again!'
+      change_value(option)
+    elsif option == 'exit'
+      return "exit"
+    elsif option_array.none?(option)
+      puts "Invalid option!"
     end
   end
 
-  def change_value
+  def change_value(option)
     puts 'Enter value from 0 to 100 for hungry, health, energy, thirst, mood, dirty.'
     puts 'Lifes from 0 to 5'
     puts 'Toilet and dreams yes/no'
-    puts 'Finish changes enter `exit`.'
     print 'Enter value =>'
     value = gets.chomp.strip
+    check_value(value)
     case option
     when 'lifes'
-      @lives = value.to_i if (0..5).include?(value.to_i)
+      @lifes = value.to_i if (0..5).include?(value.to_i)
     when 'hungry', 'health', 'energy', 'thirst', 'mood', 'dirty'
       @params[option.to_sym] = value.to_i if (0..100).include?(value.to_i)
     when 'toilet'
@@ -78,11 +79,18 @@ class Pet
       @toilet = value
     when 'dreams'
       value = (value == 'yes')
-      @dreams = value
-    else
-      puts 'Error: you enter invalid value'
+     @dreams = value
     end
+  rescue ArgumentError
+    p 'Invalid value'
   end
+
+  def check_value(value)
+    regexp =  /\A\d+\Z/
+    raise ArgumentError unless regexp.match?(value)
+    value.to_i
+  end
+ 
 
   def kill_pet
     game.authorize!('kill_pet')

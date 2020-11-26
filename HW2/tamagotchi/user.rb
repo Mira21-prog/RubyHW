@@ -40,6 +40,9 @@ class User
         new_user = { role: 'GUEST', login: login, password: password }
         user_array.push(new_user)
         File.open('example.yml', 'w') { |f| f.write(YAML.dump(user_array)) }
+        new_user = User.new(login, password, user_role = 'GUEST')
+        puts "Welcome, #{new_user.role}!"
+        new_user
       when 'no'
         exit
       end

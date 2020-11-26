@@ -33,9 +33,9 @@ You get message: "Welcome, GUEST!"
 All info for authorization
 | login | password |
 | --- | --- |
-| thebestuser | thebestuser |
-| thebestadmin | thebestadmin |
-| thebestsuperadmin | thebestsuperadmin |
+| user | user |
+| admin | admin |
+| superadmin | superadmin |
 ---
 
 6. Write name of pet in console(for example: Chewey)

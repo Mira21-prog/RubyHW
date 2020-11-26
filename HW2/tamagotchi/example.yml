@@ -1,11 +1,11 @@
 ---
 - :role: GUEST
-  :login: thebestuser
-  :password: thebestuser
+  :login: user
+  :password: user
 - :role: ADMIN
-  :login: thebestadmin
-  :password: thebestadmin
+  :login: admin
+  :password: admin
 - :role: SUPERADMIN
-  :login: thebestsuperadmin
-  :password: thebestsuperadmin
+  :login: superadmin
+  :password: superadmin
 
