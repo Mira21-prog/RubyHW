@@ -317,26 +317,26 @@ class Pet
   private
 
   def check_energy_health_mood
-    a = @params.slice(:health, :energy, :mood)
-    nparam = a.select { |_, value| (1..50).include?(value) }
-    if nparam == {}
+    major_params = @params.slice(:health, :energy, :mood)
+    params_pet = major_params.select { |_, value| (1..50).include?(value) }
+    if params_pet == {}
       pet_status
       @pet_message += 'Your pet is doing well with health, energy, mood. '
     else
-      nparam.each do |key, value|
+      params_pet.each do |key, value|
         @pet_message +=  "#{key.capitalize} with score #{value}. Please, fix it. "
       end
     end
   end
 
   def check_hungry_thirst_dirty
-    b = @params.slice(:hungry, :thirst, :dirty)
-    npa = b.select { |_, value| (11..100).include?(value) }
-    if npa == {}
+    other_params = @params.slice(:hungry, :thirst, :dirty)
+    check_other_params = other_params.select { |_, value| (11..100).include?(value) }
+    if check_other_params == {}
       pet_status
       @pet_message += 'Info! Your pet is doing well with hungry, thirst, dirty . '
     else
-      npa.each do |key, value|
+      check_other_params.each do |key, value|
         @pet_message +=  "#{key.capitalize} with score #{value}. Please, fix it. "
       end
     end
