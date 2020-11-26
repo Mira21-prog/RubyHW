@@ -1,15 +1,15 @@
 ---
 :hungry: 10
-:health: 80
-:energy: 80
+:health: 60
+:energy: 60
 :thirst: 10
-:mood: 80
+:mood: 60
 :dirty: 80
 :dreams: false
 :toilet: false
 :lifes: 5
-:pet_name: dd
+:pet_name: djd
 :pet_type: cat
 :user_login: superadmin
 :user_role: SUPERADMIN
-:user_name: ddd
+:user_name: dhdh

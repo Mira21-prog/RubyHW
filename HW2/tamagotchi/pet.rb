@@ -49,9 +49,9 @@ class Pet
   end
 
   def get_option
-    'Enter characteristic (hungry, health, energy, thirst, mood, dirty, lifes, toilet and dreams or exit)'
+    puts 'Enter characteristic (hungry, health, energy, thirst, mood, dirty, lifes, toilet and dreams or exit)'.light_blue
     option_array = %w[hungry health energy thirst mood dirty lifes toilet dreams]
-    print "Enter option or 'exit' for save changes =>"
+    print "Enter option or 'exit' for save changes =>".light_blue
     option = gets.chomp
     if option_array.include?(option)
       change_value(option)
@@ -63,23 +63,24 @@ class Pet
   end
 
   def change_value(option)
-    puts 'Enter value from 0 to 100 for hungry, health, energy, thirst, mood, dirty.'
-    puts 'Lifes from 0 to 5'
-    puts 'Toilet and dreams yes/no'
-    print 'Enter value =>'
+    puts 'Enter value from 0 to 100 for hungry, health, energy, thirst, mood, dirty.'.light_blue
+    puts 'Lifes from 0 to 5'.light_blue
+    puts 'Toilet and dreams yes/no'.light_blue
+    print 'Enter value =>'.light_blue
     value = gets.chomp.strip
-    check_value(value)
     case option
     when 'lifes'
+      check_value(value)
       @lifes = value.to_i if (0..5).include?(value.to_i)
     when 'hungry', 'health', 'energy', 'thirst', 'mood', 'dirty'
+      check_value(value)
       @params[option.to_sym] = value.to_i if (0..100).include?(value.to_i)
     when 'toilet'
       value = (value == 'yes')
       @toilet = value
     when 'dreams'
       value = (value == 'yes')
-     @dreams = value
+      @dreams = value
     end
   rescue ArgumentError
     p 'Invalid value'
