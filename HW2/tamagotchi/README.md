@@ -21,13 +21,19 @@ bundle exec ruby tamagotchi.rb
 ```
 4. Enter login: 
 ```
-Enter login:thebestuser
+Enter login:user
 ```
 5. Enter password: 
 ```
-Enter login:thebestuser
+Enter login:user
 ```
 You get message: "Welcome, GUEST!"
+
+If user dosn't exit then you get message:
+```
+Create new user yes/no =>
+```
+If you enter `yes`, the user will be created and you will continue with the game.
 
 ---
 All info for authorization
