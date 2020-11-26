@@ -11,19 +11,19 @@
 git clone https://github.com/Mira21-prog/RubyHW
 ```
 ## Instruction
-1. Run in console
+2. Run in console
 ```
 bundle 
 ```
-2. Run file in console 
+3. Run file in console 
 ```
 bundle exec ruby tamagotchi.rb
 ```
-3. Enter login: 
+4. Enter login: 
 ```
 Enter login:thebestuser
 ```
-4. Enter password: 
+5. Enter password: 
 ```
 Enter login:thebestuser
 ```
@@ -38,18 +38,18 @@ All info for authorization
 | thebestsuperadmin | thebestsuperadmin |
 ---
 
-3. Write name of pet in console(for example: Chewey)
+6. Write name of pet in console(for example: Chewey)
 
 ```
 Please, write the name of the pet=> Chewey
 ```
-4. Choose a cat or dog (for example:cat). After thet you get image 
+7. Choose a cat or dog (for example:cat). After thet you get image 
 
 ```
 Do you have a cat or a dog?=> cat
 ```
 
-5.  Write any command(for example: play, grooming) 
+8.  Write any command(for example: play, grooming) 
 
 ```
 =>play
@@ -140,10 +140,10 @@ or `pet_needs` what needs to be improved for the pet
 |set_default_score|
 
 
-5. Pet has 5 lifes. If one of the states is 0 and you did not fix it, then one life is taken away.If there are 0 lives, then you leave the program and you need to start the program again
+9. Pet has 5 lifes. If one of the states is 0 and you did not fix it, then one life is taken away.If there are 0 lives, then you leave the program and you need to start the program again
 
 
-6. Some parameters will decrease every 10 minutes
+10. Some parameters will decrease every 10 minutes
 
 Good luck! 
 
