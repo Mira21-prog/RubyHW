@@ -45,7 +45,7 @@ class Pet
       option = get_option
       break if option.eql?('exit')
     end
-    @pet_message = "New scores!"
+    @pet_message = 'New scores!'
   end
 
   def get_option
@@ -56,9 +56,9 @@ class Pet
     if option_array.include?(option)
       change_value(option)
     elsif option == 'exit'
-      return "exit"
+      'exit'
     elsif option_array.none?(option)
-      puts "Invalid option!"
+      puts 'Invalid option!'
     end
   end
 
@@ -70,10 +70,10 @@ class Pet
     value = gets.chomp.strip
     case option
     when 'lifes'
-      check_value(value)
+      check_value(value, 5)
       @lifes = value.to_i if (0..5).include?(value.to_i)
     when 'hungry', 'health', 'energy', 'thirst', 'mood', 'dirty'
-      check_value(value)
+      check_value(value, 100)
       @params[option.to_sym] = value.to_i if (0..100).include?(value.to_i)
     when 'toilet'
       value = (value == 'yes')
@@ -86,12 +86,14 @@ class Pet
     p 'Invalid value'
   end
 
-  def check_value(value)
-    regexp =  /\A\d+\Z/
+  def check_value(value, max_value = 100)
+    regexp = /\A\d+\Z/
     raise ArgumentError unless regexp.match?(value)
+
+    raise ArgumentError if value.to_i > max_value
+
     value.to_i
   end
- 
 
   def kill_pet
     game.authorize!('kill_pet')
@@ -119,8 +121,7 @@ class Pet
   def change_pet_type
     game.authorize!('change_pet_type')
     self.image = image.eql?('cat') ? 'dog' : 'cat'
-    @pet_message = "Success! Your pet is #{self.image}" "\u{1F60C}"
-
+    @pet_message = "Success! Your pet is #{image}" "\u{1F60C}"
   end
 
   def print_image(image_type)
