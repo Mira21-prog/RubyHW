@@ -36,7 +36,7 @@ class Pet
     @params = params_hash
     @lifes = 5
     @toilet = false
-    @pet_message = 'You set default score of pet'
+    @pet_message = 'You set default score of pet' 
   end
 
   def change_score
