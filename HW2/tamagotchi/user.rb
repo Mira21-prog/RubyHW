@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'yaml'
-require 'pry'
 
 class User
   GUEST_PERMISSIONS = %w[play eat drink treat dream awake overwatch grooming restroom walking pet_status help pet_needs]

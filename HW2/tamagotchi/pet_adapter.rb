@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
-
 class PetAdapter
   attr_reader :params, :pet_message
 
