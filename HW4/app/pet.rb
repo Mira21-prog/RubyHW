@@ -7,18 +7,18 @@ class Pet
   include Logic
   
   def self.call(env)
-    new(env).response.finish
+    new(env).response&.finish
   end
   
   def initialize(env)
     @req = Rack::Request.new(env)
     @dreams = true
-    @hungry = 80
-    @health = 80
-    @energy = 80
-    @thirst = 80
-    @mood = 80
-    @dirty= 80
+    @hungry = 40
+    @health = 50
+    @energy = 60
+    @thirst = 50
+    @mood = 55
+    @dirty= 10
     @lifes = 5
     @toilet = true
   end
@@ -51,6 +51,9 @@ class Pet
       return Logic.change_params(@req)
     when '/start'
       Rack::Response.new(render("index.html.erb"))
+    when '/end'
+      Rack::Response.new('The end', 404)
+      Rack::Response.new(render("end.html.erb"))
     end
   end
 
