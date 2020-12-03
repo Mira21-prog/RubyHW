@@ -1,51 +1,91 @@
 require "./app/pet"
 module Logic 
-    
-    def self.change_params(req)
+    extend self
+
+    OPTION = {play: { "health": 5, "hungry": -10, "mood": 5}, 
+              eat: {"health": -12, "hungry": 5, "dirty":5},
+              drink: {"health":5, "energy":-10, "mood":5},
+              treat: {"health":5, "mood":-11, "thirst":5},
+              grooming: {"health":5, "energy":-8},
+              walking: {"mood":11, "thirst":-5}
+             }
+
+    def change_params(req)
       Rack::Response.new do |response|
-        options = {play: { "health": 5, "hungry": -10, "mood": 5}, 
-                  eat: {"health": -12, "hungry": 5, "dirty":5},
-                  drink: {"health":5, "energy":-10, "mood":5},
-                  treat: {"health":5, "mood":-11, "thirst":5}
-                  }
-
-        request = req.path.delete "/"
-        re = request.to_sym
-        return unless options.keys.include?(re)
-   
-        options[re].each do |key, value|
-          num = req.cookies["#{key}"].to_i + value + rand(0..10)
-          response.set_cookie("#{key}", num)
-          if num >= 100
-            num = 100
-            response.set_cookie("#{key}", num)
-          elsif num <= 0
-            num = 0
-            response.set_cookie("#{key}", num)
-          end
-
-
-          select_option = req.cookies.slice("hungry", "health", "thirst", "mood", "dirty")
-          values = select_option.select { |_, value| value.to_i.zero? }
-          redirected = if req.cookies["lifes"].to_i <=0
-            response.redirect('/end')
-          elsif values.size.positive?
-            count = req.cookies["lifes"].to_i - 1
-            response.set_cookie("lifes", count)
-            response.redirect('/start')
-            response.redirect('/start')
-          else
-            count = req.cookies["lifes"].to_i
-            response.set_cookie("lifes", count)
-            response.redirect('/start')
-          end 
-         if redirected == "/end"
-          response.redirect('/end')
-         else  
-          response.redirect('/start')
-         end
-
+        request = req.path[1..-1].to_sym
+        check_path(request)
+        num = {}
+        new_data = set_value(request,req, num)
+        set_cookies(response, req, new_data)
+        check_life(req, num, response)
       end
     end
-  end
+
+    def check_path(request)
+      return unless OPTION.keys.include?(request)
+    end
+
+    def set_value(request, req, num)
+      OPTION[request].each do |k, v|
+        num[k] = req.cookies["#{k}"].to_i + v
+      end
+      num
+      check_value(num)
+    end
+
+    def set_cookies(response, req, new_data)
+      new_data.each do |key, value|
+        response.set_cookie("#{key}", value)
+      end
+      add_message(response, req)
+      response.redirect('/start')
+    end
+
+    def add_message(response, req)
+      response.set_cookie("message", "Pet: Thanks for playing! It was cool!") if req.path.include?("/play")
+      response.set_cookie("message", "Pet: Yum Yum! It was delicious!") if req.path.include?("/eat")
+      response.set_cookie("message", "Pet: Thanks! I feel very well") if req.path.include?("/drink")
+      response.set_cookie("message", "Pet: I'm healthy now") if req.path.include?("/treat")
+      response.set_cookie("message", "Pet: I have become very attractive! It was cool!") if req.path.include?("/grooming")
+      response.set_cookie("message", "Pet: Thanks for walking! It was cool!") if req.path.include?("/walking")
+    end 
+
+    def check_value(num)
+      num.each do |key, value|
+        if num[key] > 100
+          num[key] = 100
+        elsif num[key] < 0 
+          num[key] = 0
+        else  
+          num[key]
+        end
+      end
+      num
+    end
+
+    def check_life(req, num, response)
+      count = req.cookies["lifes"].to_i
+      if num.value?(0)&&count > 0
+        count = req.cookies["lifes"].to_i - 1
+        redirected = '/start'
+      elsif num.value?(0)&&count == 0
+        count = 0
+        redirected = '/end'
+      else 
+        count = req.cookies["lifes"].to_i
+        redirected = '/start'
+      end
+      response.set_cookie("lifes", count)
+      check_redirect(redirected, response)
+    end
+
+
+    def check_redirect(redirected, response)
+      if redirected == "/end"
+        response.redirect('/end')
+      else  
+        response.redirect('/start')
+      end
+    end
+
 end

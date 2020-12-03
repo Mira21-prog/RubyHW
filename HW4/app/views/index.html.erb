@@ -16,6 +16,7 @@
         <div class="alert alert-success" role="alert">
             <div class="row">
               <div class="col-sm-12"></div>
+              <%= message%>
             </div>
         </div>
 
@@ -69,19 +70,12 @@
           <div class="progress-bar bg-success" role="progressbar" style="width: <%= get('lifes') * 20 %>%" aria-valuenow="<%= get('lifes') %>" aria-valuemin="0" aria-valuemax="100"><%= get('lifes') %></div>
         </div>
         <br>
-        <form>
-         <div class="checkbox">
-          <label class="text-capitalize font-weight-bold"><input type="checkbox" <%= get('toilet') == '1' ? 'checked' : '' %> disabled> Toilet</label>
-        </div>
-        <div class="checkbox">
-          <label class="text-capitalize font-weight-bold"><input type="checkbox" <%= get('dreams') == '1' ? 'checked' : '' %> disabled> Dreams</label>
-        </div>
-        </form>
+ 
         </li>
           </ul>
             </div>
               <div class='col-sm-4'>
-                <img src="https://cdn2.thedogapi.com/images/H6UCIZJsc.jpg" class="img-fluid" alt="Responsive image">
+                <img src= "<%= image%>" class="img-fluid" alt="Responsive image">
               </div> 
             </div>
             <br>
@@ -102,6 +96,14 @@
                   <form action="/treat" method="get">
                      <button type="submit" class="btn btn-primary" name="treat" value="treat">Treat</button>
                   </form>
+
+                  <form action="/grooming" method="get">
+                     <button type="submit" class="btn btn-primary" name="groоming" value="grooming">Groming</button>
+                  </form>
+                  <form action="/walking" method="get">
+                     <button type="submit" class="btn btn-primary" name="walking" value="walking">Walking</button>
+                  </form>
+
                   <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">HELP</button>
                     <div class="collapse" id="collapseExample">
                       <div class="card card-body bg-light">
