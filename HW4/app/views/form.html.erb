@@ -9,49 +9,41 @@
   <body>
   <div class="row"> 
     <div class = "container">
+     <div class="card border-0 shadow my-5">
+      <div class="card-body p-5">
       <div class="col-sm-12">
       <form action="/init" method="get">
         <div class="form-group alert alert-success">
         <h4 class="alert-heading">Welcome, guest!</h4>
-        <hr>
-        <h6>Please, enter a name of pet and choose a picture then click "Submit".</h6>
-        <h6>Good luck!</h6>
-        <label for="name">Enter name for your pet: </label>
+        </div>
+        <label for="name">Enter name: </label>
         <input type="text" name="name" class="form-control" placeholder="Enter name of pet...">
-        </div>
+        <label for="name">Select image: </label>
       <div class="row">
-       <div class="col-md-3">
+       <div class="col-md-4">
         <div class="custom-control custom-radio image-checkbox">
-            <input type="radio" class="custom-control-input" id="ck2a" name="image" value = "https://cdn2.thecatapi.com/images/LIQSvUemz.jpg">
+            <input type="radio" class="custom-control-input" id="ck2a" name="image" value = "public/img/ket1.jpg">
             <label class="custom-control-label" for="ck2a">
-                <img src="https://cdn2.thecatapi.com/images/LIQSvUemz.jpg" class="img-fluid fooe" alt="Responsive image">
+                <img src="public/img/ket1.jpg" class="img-fluid fooe" alt="Responsive image">
             </label>
         </div>
        </div>
-       <div class="col-md-3">
+       <div class="col-md-4">
         <div class="custom-control custom-radio image-checkbox">
-            <input type="radio" class="custom-control-input" id="ck2b" name="image" value = "https://cdn2.thedogapi.com/images/H6UCIZJsc.jpg">
-            <label class="custom-control-label" for="ck2b">
-                <img src="https://cdn2.thedogapi.com/images/H6UCIZJsc.jpg" class="img-fluid fooe" alt="Responsive image">
-            </label>
-        </div>
-       </div>
-       <div class="col-md-3">
-        <div class="custom-control custom-radio image-checkbox">
-            <input type="radio" class="custom-control-input" id="ck2c" name="image" value = "https://cdn2.thecatapi.com/images/3IWhPRL3a.jpg" >
+            <input type="radio" class="custom-control-input" id="ck2c" name="image" value = "public/img/ket2.jpg" >
             <label class="custom-control-label" for="ck2c">
-                <img src="https://cdn2.thecatapi.com/images/3IWhPRL3a.jpg" class="img-fluid fooe" alt="Responsive image">
+                <img src="public/img/ket2.jpg" class="img-fluid fooe" alt="Responsive image">
             </label>
         </div>
        </div>
-       <div class="col-md-3">
+       <div class="col-md-4">
         <div class="custom-control custom-radio image-checkbox">
-            <input type="radio" class="custom-control-input" id="ck2d" name="image" value = "https://cdn2.thedogapi.com/images/Nk8cSr_aj.jpg">
+            <input type="radio" class="custom-control-input" id="ck2d" name="image" value = "public/img/dog2.jpg" >
             <label class="custom-control-label" for="ck2d">
-                <img src="https://cdn2.thedogapi.com/images/Nk8cSr_aj.jpg" class="img-fluid fooe" alt="Responsive image">
+                <img src="public/img/dog2.jpg" class="img-fluid fooe" alt="Responsive image">
             </label>
         </div>
-      </div>
+       </div>
     </div>
       <br>
       <br>
@@ -61,7 +53,10 @@
       </form>
       </div>
     </div>
+    </div>
+    </div>
   </div>
+  
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
