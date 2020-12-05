@@ -47,7 +47,7 @@ module Logic
       response.set_cookie("message", "Pet: Thanks! I feel very well") if req.path.include?("/drink")
       response.set_cookie("message", "Pet: I'm healthy now") if req.path.include?("/treat")
       response.set_cookie("message", "Pet: I have become very attractive! It was cool!") if req.path.include?("/grooming")
-      response.set_cookie("message", "Pet: Thanks for walking! It was cool!") if req.path.include?("/walking")
+      response.set_cookie("message", "Pet: Thanks for walking! It was cool! ") if req.path.include?("/walking")
     end 
 
     def check_value(num)

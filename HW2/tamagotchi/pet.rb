@@ -4,7 +4,6 @@ require_relative 'color'
 require_relative 'pet_adapter'
 require 'content_flip'
 require 'launchy'
-require 'pry'
 
 class Pet
   attr_reader :pet_message
