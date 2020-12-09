@@ -1,24 +1,29 @@
-# README
+## Requirements
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+1. Ruby 
 
-* Ruby version
+## Download
+Clone repository 
+```
+git clone https://github.com/Mira21-prog/RubyHW
+``` 
+Install rails
+```
+gem install rails
+```
+## Instruction
 
-* System dependencies
+Swich on
+```
+cd HW5/new_resume/   
+```
+run 
+```
+rails s
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Go to 
+```
+http://localhost:3000/
+```
