@@ -1,0 +1,11 @@
+---
+- :role: GUEST
+  :login: user
+  :password: user
+- :role: ADMIN
+  :login: admin
+  :password: admin
+- :role: SUPERADMIN
+  :login: superadmin
+  :password: superadmin
+
