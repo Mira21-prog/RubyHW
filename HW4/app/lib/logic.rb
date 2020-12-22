@@ -1,8 +1,8 @@
 require "./app/pet"
 module Logic 
-    extend self
+  extend self
 
-    OPTION = {play: { "health": 5, "hungry": -10, "mood": 5}, 
+    OPTION = { play: { "health": 5, "hungry": -10, "mood": 5}, 
               eat: {"health": -12, "hungry": 5, "dirty":5},
               drink: {"health":5, "energy":-10, "mood":5},
               treat: {"health":5, "mood":-11, "thirst":5},
@@ -68,7 +68,7 @@ module Logic
       if num.value?(0)&&count > 0
         count = req.cookies["lifes"].to_i - 1
         redirected = '/start'
-      elsif num.value?(0)&&count == 0
+      elsif num.value?(0) && count == 0
         count = 0
         redirected = '/end'
       else 
